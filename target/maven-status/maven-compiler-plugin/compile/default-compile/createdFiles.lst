@@ -1,0 +1,4 @@
+murach\business\User.class
+murach\data\UserIO.class
+murach\email\EmailListServlet.class
+murach\data\UserDB.class
