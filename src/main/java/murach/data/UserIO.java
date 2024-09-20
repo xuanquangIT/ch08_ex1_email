@@ -10,14 +10,22 @@ import murach.business.User;
 public class UserIO {
 
     public static void addRecord(User user, String filename) throws IOException {
+        System.out.println("Attempting to write user to file: " + filename);  // Debugging output
         File file = new File(filename);
-        PrintWriter out = new PrintWriter(
-                new FileWriter(file, true));
-        out.println(user.getEmail() + "|"
-                + user.getFirstName() + "|"
-                + user.getLastName());
+
+        // Check if file exists or can be created
+        if (!file.exists()) {
+            System.out.println("File does not exist. Creating new file.");
+            file.createNewFile();  // This will create the file if it doesn't exist
+        }
+
+        PrintWriter out = new PrintWriter(new FileWriter(file, true));
+        out.println(user.getEmail() + "|" + user.getFirstName() + "|" + user.getLastName());
         out.close();
+
+        System.out.println("User written to file: " + user.getEmail());  // Debugging output
     }
+
 
     public static User getUser(String emailAddress, String filename) throws IOException {
         File file = new File(filename);

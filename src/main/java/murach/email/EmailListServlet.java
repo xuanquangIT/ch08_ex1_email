@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package murach.email;
 
 import jakarta.servlet.ServletException;
@@ -10,23 +6,21 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Date;
 import murach.business.User;
 import murach.data.UserDB;
 import murach.data.UserIO;
 
-
 public class EmailListServlet extends HttpServlet
-{
+{    
     @Override
     protected void doPost(HttpServletRequest request,
-                          HttpServletResponse response)
-            throws ServletException, IOException {
+                          HttpServletResponse response) 
+                          throws ServletException, IOException {
 
         HttpSession session = request.getSession();
-
+        
         // get current action
         String action = request.getParameter("action");
         if (action == null) {
@@ -38,7 +32,7 @@ public class EmailListServlet extends HttpServlet
         if (action.equals("join")) {
             url = "/index.jsp";    // the "join" page
         }
-        else if (action.equals("add")) {
+        else if (action.equals("add")) {                
             // get parameters from the request
             String firstName = request.getParameter("firstName");
             String lastName = request.getParameter("lastName");
@@ -46,13 +40,15 @@ public class EmailListServlet extends HttpServlet
 
             // store data in User object and save User object in database
             User user = new User(firstName, lastName, email);
-            UserDB.insert(user);
-
+//            UserDB.insert(user);
+            String path = getServletContext().getRealPath("/WEB-INF/EmailList.txt");
+            UserIO.addRecord(user, path);
+            
             // set User object in request object and set URL
             session.setAttribute("user", user);
             url = "/thanks.jsp";   // the "thanks" page
         }
-
+        
         // create the Date object and store it in the request
         Date currentDate = new Date();
         request.setAttribute("currentDate", currentDate);
@@ -64,14 +60,14 @@ public class EmailListServlet extends HttpServlet
 
         // forward request and response objects to specified URL
         getServletContext()
-                .getRequestDispatcher(url)
-                .forward(request, response);
-    }
-
+            .getRequestDispatcher(url)
+            .forward(request, response);
+    }    
+    
     @Override
-    protected void doGet(HttpServletRequest request,
-                         HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, 
+                          HttpServletResponse response) 
+                          throws ServletException, IOException {
         doPost(request, response);
-    }
+    }    
 }

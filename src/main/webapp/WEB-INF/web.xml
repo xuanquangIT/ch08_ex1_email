@@ -4,10 +4,6 @@
         <servlet-name>EmailListServlet</servlet-name>
         <servlet-class>murach.email.EmailListServlet</servlet-class>
     </servlet>
-    <servlet-mapping>
-        <servlet-name>EmailListServlet</servlet-name>
-        <url-pattern>/EmailListServlet</url-pattern>
-    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
